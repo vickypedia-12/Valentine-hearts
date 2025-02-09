@@ -1,0 +1,42 @@
+Username: BookLoverAlice
+Email: alice.read@email.com
+Password: StrongP@sswOrd1!
+Bio: Loves getting lost in a good book, exploring nature trails, and discovering hidden gem restaurants. Always seeking new adventures and meaningful conversations.
+Interests: books, hiking, food, travel, writing
+Gender: Female
+Preferences: Men
+Zodiac Sign: Aries
+Birth Date: 1990-04-10
+User 2: Bob
+
+Username: GuitarCoderBob
+Email: bob.code@email.com
+Password: C0d3AndStrUm$!
+Bio: Enjoys the challenge of coding, the rhythm of playing guitar, and the escape of watching classic movies. Looking for someone who appreciates creativity and intellectual pursuits.
+Interests: coding, guitar, movies, gaming, technology
+Gender: Male
+Preferences: Women
+Zodiac Sign: Taurus
+Birth Date: 1985-05-15
+User 3: Carol
+
+Username: ArtMusicCarol
+Email: carol.art@email.com
+Password: P@ssi0nArt123!
+Bio: Passionate about expressing herself through art, losing herself in music, and finding joy in dance. Seeking a creative soulmate to share artistic experiences with.
+Interests: art, music, dance, photography, painting
+Gender: Female
+Preferences: Men
+Zodiac Sign: Gemini
+Birth Date: 1992-06-20
+User 4: David
+
+Username: TravelSportsDavid
+Email: david.explore@email.com
+Password: Adv3ntur3Time!
+Bio: Adventurous and outgoing, with a love for exploring new cultures, staying active through sports, and connecting with people from all walks of life.
+Interests: travel, adventure, sports, socializing, languages
+Gender: Male
+Preferences: Women
+Zodiac Sign: Cancer
+Birth Date: 1988-07-25

@@ -1,0 +1,178 @@
+{% extends 'hearts/base.html' %}
+
+{% block title %}{{ user.username }}'s Profile - Valentine's Day Matcher{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="profile-header" style="text-align: center; margin-bottom: 2rem;">
+        <h1 style="color: var(--primary-color); margin-bottom: 0.5rem;">{{ user.username }}'s Profile</h1>
+        <p style="color: var(--text-color);">Member since {{ profile.created_at|date:"F j, Y" }}</p>
+    </div>
+
+    <div class="profile-content" style="max-width: 600px; margin: 0 auto;">
+        <form method="post" class="profile-form">
+            {% csrf_token %}
+            
+            <div class="form-section" style="background: #f8f9fa; padding: 2rem; border-radius: 10px; margin-bottom: 2rem;">
+                <h2 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.5rem;">Basic Information</h2>
+                
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="{{ profile_form.birth_date.id_for_label }}" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Birth Date</label>
+                    {{ profile_form.birth_date }}
+                    {% if profile.birth_date %}
+                        <p class="age-display" style="margin-top: 0.5rem; color: var(--text-color); font-size: 0.9rem;">
+                            Age: {{ profile.get_age }} years old
+                        </p>
+                    {% endif %}
+                    {% if profile_form.birth_date.errors %}
+                        <div class="error-message">{{ profile_form.birth_date.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="{{ profile_form.bio.id_for_label }}" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Bio</label>
+                    {{ profile_form.bio }}
+                    {% if profile_form.bio.errors %}
+                        <div class="error-message">{{ profile_form.bio.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="{{ profile_form.interests.id_for_label }}" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Interests</label>
+                    {{ profile_form.interests }}
+                    {% if profile_form.interests.errors %}
+                        <div class="error-message">{{ profile_form.interests.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+            </div>
+
+            <div class="form-section" style="background: #f8f9fa; padding: 2rem; border-radius: 10px; margin-bottom: 2rem;">
+                <h2 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.5rem;">Matching Preferences</h2>
+                
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="{{ profile_form.gender.id_for_label }}" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Gender</label>
+                    {{ profile_form.gender }}
+                    {% if profile_form.gender.errors %}
+                        <div class="error-message">{{ profile_form.gender.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="{{ profile_form.preferences.id_for_label }}" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Interested in</label>
+                    {{ profile_form.preferences }}
+                    {% if profile_form.preferences.errors %}
+                        <div class="error-message">{{ profile_form.preferences.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="{{ profile_form.zodiac_sign.id_for_label }}" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Zodiac Sign</label>
+                    {{ profile_form.zodiac_sign }}
+                    {% if profile_form.zodiac_sign.errors %}
+                        <div class="error-message">{{ profile_form.zodiac_sign.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-actions" style="text-align: center;">
+                <button type="submit" class="btn" style="width: 200px;">Save Changes</button>
+            </div>
+        </form>
+
+        <div class="profile-stats" style="margin-top: 3rem; text-align: center;">
+            <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Your Activity</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                <div class="stat-card" style="background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <h4 style="margin: 0; color: var(--text-color);">Matches</h4>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 1.5rem; color: var(--primary-color);">
+                        {{ user.matcher.count|add:user.matched.count }}
+                    </p>
+                </div>
+                <div class="stat-card" style="background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <h4 style="margin: 0; color: var(--text-color);">Messages</h4>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 1.5rem; color: var(--primary-color);">
+                        {{ user.sent_messages.count|add:user.received_messages.count }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .errorlist {
+        color: var(--primary-color);
+        list-style: none;
+        padding: 0;
+        margin: 0.25rem 0;
+        font-size: 0.9rem;
+    }
+    .error-message {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    .form-section {
+        transition: transform 0.3s;
+    }
+
+    .form-section:hover {
+        transform: translateY(-2px);
+    }
+
+    .stat-card {
+        transition: all 0.3s;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .profile-form .form-group label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .profile-form .form-group input,
+    .profile-form .form-group textarea,
+    .profile-form .form-group select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: border-color 0.3s;
+    }
+
+    .profile-form .form-group input:focus,
+    .profile-form .form-group textarea:focus,
+    .profile-form .form-group select:focus {
+        border-color: var(--primary-color);
+        outline: none;
+    }
+    .question-choices {
+        display: none;
+    }
+
+    .choice-label {
+        position: relative;
+        padding-left: 35px;
+    }
+
+    .choice-label input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+    }
+
+    .choice-label input[type="radio"]:checked + span {
+        color: var(--primary-color);
+    }
+
+    .choice-label input[type="radio"]:checked ~ .choice-label {
+        background: var(--background-color);
+        border-color: var(--primary-color);
+    }
+</style>
+{% endblock %}

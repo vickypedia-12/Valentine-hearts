@@ -1,0 +1,46 @@
+{% extends 'hearts/base.html' %}
+
+{% block title %}Home - Find Your Valentine{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div style="text-align: center; margin-bottom: 3rem;">
+        <h1 style="color: var(--primary-color); font-size: 2.5rem; margin-bottom: 1rem;">
+            Find Your Perfect Match This Valentine's Day
+        </h1>
+        <p style="font-size: 1.2rem; color: var(--text-color); margin-bottom: 2rem;">
+            Join our community of {{ total_users }} people looking for love!
+        </p>
+        
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem;">
+        <div class="feature-card" style="text-align: center; padding: 1.5rem;">
+            <h3 style="color: var(--primary-color);">Create Your Profile</h3>
+            <p>Tell us about yourself and what you're looking for in a partner.</p>
+        </div>
+        
+        <div class="feature-card" style="text-align: center; padding: 1.5rem;">
+            <h3 style="color: var(--primary-color);">Take the Quiz</h3>
+            <p>Answer our compatibility questions to find your perfect match.</p>
+        </div>
+        
+        <div class="feature-card" style="text-align: center; padding: 1.5rem;">
+            <h3 style="color: var(--primary-color);">Get Matched</h3>
+            <p>Our algorithm will find the best matches for you.</p>
+        </div>
+    </div>
+
+    {% if is_valentine %}
+    <div style="background: linear-gradient(135deg, #ff6b6b, #f06292); color: white; padding: 2rem; border-radius: 10px; margin-top: 3rem; text-align: center;">
+        <h2>❤️ It's Valentine's Day! ❤️</h2>
+        <p>Your matches are ready to be revealed!</p>
+        <a href="{% url 'matches' %}" class="btn" style="background-color: white; color: var(--primary-color);">See Your Matches</a>
+    </div>
+    {% endif %}
+
+    <div style="text-align: center; margin-top: 3rem;">
+        <p style="color: var(--text-color);">Already {{ total_matches }} successful matches made!</p>
+    </div>
+</div>
+{% endblock %}

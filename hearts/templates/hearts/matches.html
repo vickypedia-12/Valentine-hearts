@@ -1,0 +1,139 @@
+{% extends 'hearts/base.html' %}
+
+{% block title %}Your Best Match - Valentine's Day Matcher{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="matches-header" style="text-align: center; margin-bottom: 2rem;">
+        <h1 style="color: var(--primary-color); margin-bottom: 0.5rem;">Your Best Match</h1>
+        {% if not has_matches %}
+            <p style="color: var(--text-color);">{{ message }}</p>
+            <a href="{% url 'hearts:questionnaire' %}" class="btn" style="margin-top: 1rem;">Take Questionnaire</a>
+        {% else %}
+            <p style="color: var(--text-color);">Found {{ matches|length }} potential matches for you!</p>
+        {% endif %}
+    </div>
+
+    {% if has_matches %}
+    <div style="max-width: 600px; margin: 0 auto;">
+        {% with best_match=matches|first %}
+        <div class="match-card {% if best_match.zodiac_match %}zodiac-match{% endif %}" 
+             style="background: white; border-radius: 10px; padding: 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: transform 0.3s;">
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.5rem;">
+                    {% if best_match.revealed %}
+                        {{ best_match.profile.user.username }}
+                    {% else %}
+                        Your Highest Match!
+                    {% endif %}
+                </h3>
+                <div class="compatibility-score" style="font-size: 1.8rem; font-weight: bold;">
+                    {{ best_match.compatibility|floatformat:0 }}% Match
+                </div>
+            </div>
+
+            <div class="compatibility-breakdown" style="margin: 1.5rem 0; padding: 1.5rem; background: #f8f9fa; border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem;">
+                    <span>Questionnaire:</span>
+                    <span>{{ best_match.questionnaire_compatibility|floatformat:0 }}%</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem;">
+                    <span>Zodiac:</span>
+                    <span>{{ best_match.zodiac_compatibility|floatformat:0 }}%</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem;">
+                    <span>Interests:</span>
+                    <span>{{ best_match.interest_compatibility|floatformat:0 }}%</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span>Age Difference:</span>
+                    <span>{{ best_match.age_difference|floatformat:0 }}</span>
+                </div>
+                {% if best_match.zodiac_match %}
+                    <div style="text-align: center; margin-top: 1rem; color: var(--primary-color);">
+                        ✨ Perfect Zodiac Match! ✨
+                    </div>
+                {% endif %}
+            </div>
+
+            {% if best_match.revealed %}
+                <div style="margin: 1.5rem 0;">
+                    <p style="margin-bottom: 1rem;"><strong>Bio:</strong> {{ best_match.profile.bio|truncatewords:30 }}</p>
+                    <p style="margin-bottom: 1rem;"><strong>Interests:</strong> {{ best_match.profile.interests }}</p>
+                    <p style="margin-bottom: 1rem;"><strong>Age:</strong> {{ best_match.profile.get_age }}</p>
+                    <p><strong>Zodiac Sign:</strong> {{ best_match.profile.get_zodiac_sign_display }}</p>
+                </div>
+            {% else %}
+                <p style="text-align: center; color: var(--text-color); margin: 1.5rem 0;">
+                    Reveal this match to see their details!
+                </p>
+            {% endif %}
+
+            {% if not best_match.revealed %}
+            <form method="post" action="{% url 'hearts:reveal_match' best_match.match_id %}" style="text-align: center;">
+                {% csrf_token %}
+                <button type="submit" class="btn" style="width: 100%;">Reveal Your Best Match</button>
+            </form>
+            {% endif %}
+        </div>
+        {% endwith %}
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .match-card {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .match-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .compatibility-score {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        padding: 0.8rem 1.5rem;
+        border-radius: 25px;
+        display: inline-block;
+    }
+
+    .compatibility-breakdown {
+        font-size: 1rem;
+        color: var(--text-color);
+    }
+
+    @keyframes sparkle {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+
+    .zodiac-match::before {
+        content: '★';
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-size: 1.5rem;
+        color: gold;
+        animation: sparkle 1s infinite;
+    }
+
+    .btn {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 25px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+</style>
+{% endblock %}
