@@ -6,3 +6,10 @@ db.sqlite3
 
 myenv
 
+.env
+staticfiles/
+.env.local
+.env.development
+
+media/
+staticfiles/
