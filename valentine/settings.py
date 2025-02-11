@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'https://valentine-hearts.onrender.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'valentine-hearts.onrender.com']
 
 
 # Application definition
