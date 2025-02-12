@@ -207,12 +207,16 @@ def matches(request):
 
 @login_required
 def reveal_match(request, match_id):
-    if request.method == 'POST':
-        match = Match.objects.get(id=match_id)
-        if match.user1 == request.user or match.user2 == request.user:
+    try:
+        match = Match.objects.get(id=match_id, user1=request.user)
+        if request.method == 'POST':
             match.revealed = True
             match.save()
-    return redirect('hearts:matches')
+            messages.success(request, 'Match revealed successfully!')
+        return redirect('hearts:matches')
+    except Match.DoesNotExist:
+        messages.error(request, 'Match not found.')
+        return redirect('hearts:matches')
 
 @login_required
 def messages(request):

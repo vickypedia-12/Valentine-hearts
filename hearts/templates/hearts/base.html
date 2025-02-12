@@ -6,10 +6,11 @@
     <title>{% block title %}Valentine's Day Matcher{% endblock %}</title>
     <style>
         :root {
-            --primary-color: #ff6b6b;
-            --secondary-color: #f06292;
-            --background-color: #fff5f5;
-            --text-color: #2c3e50;
+            --primary-color: #FF597B;
+            --secondary-color: #FF8FA3;
+            --accent-color: #FFB3C1;
+            --background-color: #FFF5F6;
+            --text-color: #2D3436;
         }
 
         body {
@@ -238,21 +239,208 @@
     .btn-login:hover, .btn-register:hover, .btn-logout:hover {
         transform: translateY(-2px);
     }
+
+    @keyframes floatingHeart {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+
+    .floating-heart {
+        position: fixed;
+        z-index: -1;
+        color: var(--accent-color);
+        font-size: 1.5rem;
+        pointer-events: none;
+        animation: floatingHeart 15s linear infinite;
+    }
+
+    .card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(255, 89, 123, 0.1);
+        transition: transform 0.3s ease;
+        border: 2px solid transparent;
+        background-image: linear-gradient(white, white), 
+                        linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        background-origin: border-box;
+        background-clip: content-box, border-box;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .gradient-text {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: bold;
+    }
+
+    .valentine-nav {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    padding: 1rem;
+    box-shadow: 0 2px 15px rgba(255, 89, 123, 0.2);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.heart-icon {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+.valentine-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(255, 89, 123, 0.1);
+}
+
+.valentine-form input,
+.valentine-form textarea,
+.valentine-form select {
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
+    padding: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.valentine-form input:focus,
+.valentine-form textarea:focus,
+.valentine-form select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(255, 89, 123, 0.1);
+    outline: none;
+}
+
+.valentine-button {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.valentine-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 89, 123, 0.2);
+}
+.match-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    padding: 2rem;
+    background: white;
+    box-shadow: 0 4px 15px rgba(255, 89, 123, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.match-card::before {
+    content: '♥';
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    background: var(--primary-color);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0);
+    transition: transform 0.3s ease;
+}
+
+.match-card:hover::before {
+    transform: scale(1);
+}
+
+.match-card:hover {
+    transform: translateY(-5px);
+}
+.heart-loader {
+    width: 50px;
+    height: 50px;
+    position: relative;
+    animation: heartbeat 1.2s infinite;
+}
+
+.heart-loader::before,
+.heart-loader::after {
+    content: '';
+    background: var(--primary-color);
+    width: 30px;
+    height: 45px;
+    border-radius: 30px 30px 0 0;
+    position: absolute;
+    left: 50%;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+}
+
+.heart-loader::after {
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(0.8); }
+    5% { transform: scale(0.9); }
+    10% { transform: scale(0.8); }
+    15% { transform: scale(1); }
+    50% { transform: scale(0.8); }
+    100% { transform: scale(0.8); }
+}
     </style>
 </head>
 <body>
     <nav style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); padding: 1rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
-            <div class="nav-links">
-                <a href="{% url 'hearts:home' %}" class="nav-link">Home</a>
-                {% if user.is_authenticated %}
-                    <a href="{% url 'hearts:profile' %}" class="nav-link">Profile</a>
-                    <a href="{% url 'hearts:questionnaire' %}" class="nav-link">Questionnaire</a>
-                    <a href="{% url 'hearts:matches' %}" class="nav-link">Matches</a>
-                    <!-- <a href="{% url 'hearts:messages' %}" class="nav-link">Messages</a> -->
-                    <!-- <a href="{% url 'hearts:confessions' %}" class="nav-link">Confessions</a> -->
-                {% endif %}
-            </div>
+            <nav class="valentine-nav">
+                <div class="nav-container">
+                    <div class="nav-brand">
+                        <span class="heart-icon">♥</span>
+                        <span class="gradient-text">Valentine's Matcher</span>
+                    </div>
+                    <div class="nav-links">
+
+                        <a href="{% url 'hearts:home' %}" class="nav-link">Home</a>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'hearts:profile' %}" class="nav-link">Profile</a>
+                            <a href="{% url 'hearts:questionnaire' %}" class="nav-link">Questionnaire</a>
+                            <a href="{% url 'hearts:matches' %}" class="nav-link">Matches</a>
+                            <!-- <a href="{% url 'hearts:messages' %}" class="nav-link">Messages</a> -->
+                            <!-- <a href="{% url 'hearts:confessions' %}" class="nav-link">Confessions</a> -->
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+            
             <div class="auth-buttons">
                 {% if user.is_authenticated %}
                     <span style="color: white; margin-right: 1rem;">Hello, {{ user.username }}!</span>
@@ -272,5 +460,23 @@
         {% block content %}
         {% endblock %}
     </main>
+
+    <script>
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = '♥';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 5 + 10 + 's';
+            heart.style.opacity = Math.random() * 0.5 + 0.5;
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 15000);
+        }
+        
+        setInterval(createHeart, 1000);
+    </script>
 </body>
 </html>
