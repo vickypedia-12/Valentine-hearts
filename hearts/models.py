@@ -47,6 +47,7 @@ class Question(models.Model):
     def __str__(self):
         return self.text
     
+    @classmethod
     def create_default_questions(cls):
         questions = [
             {
